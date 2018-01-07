@@ -25,13 +25,13 @@ namespace Correction.UI {
 
         // position correction
         [SerializeField]
-        private TROStepper m_positionManage;
+        private Stepper m_positionManage;
         // rotation correction
         [SerializeField]
-        private TROStepper m_rotationManage;
+        private Stepper m_rotationManage;
         // scale correction
         [SerializeField]
-        private TROStepper m_scaleManage;
+        private Stepper m_scaleManage;
 
         private List<GameObject> redactedObjects = new List<GameObject>();
 
@@ -168,26 +168,26 @@ namespace Correction.UI {
             m_axisSelection.gameObject.SetActive(false);
 
             // position
-            m_positionManage.plusBtn.onClick.AddListener(
+            m_positionManage.AddPlusAction(
                 () => _changeTransform(TransformField.positionLocal, _choosedAxis, true)
             );
-            m_positionManage.minusBtn.onClick.AddListener(
+            m_positionManage.AddMinusAction(
                 () => _changeTransform(TransformField.positionLocal, _choosedAxis, false)
             );
             m_positionManage.gameObject.SetActive(false);
             // rotation
-            m_rotationManage.plusBtn.onClick.AddListener(
+            m_rotationManage.AddPlusAction(
                 () => _changeTransform(TransformField.rotationLocal, _choosedAxis, true)
             );
-            m_rotationManage.minusBtn.onClick.AddListener(
+            m_rotationManage.AddMinusAction(
                 () => _changeTransform(TransformField.rotationLocal, _choosedAxis, false)
             );
             m_rotationManage.gameObject.SetActive(false);
             // scale
-            m_scaleManage.plusBtn.onClick.AddListener(
+            m_scaleManage.AddPlusAction(
                 () => _changeTransform(TransformField.scaleLocal, _choosedAxis, true)
             );
-            m_scaleManage.minusBtn.onClick.AddListener(
+            m_scaleManage.AddMinusAction(
                 () => _changeTransform(TransformField.scaleLocal, _choosedAxis, false)
             );
             m_scaleManage.gameObject.SetActive(false);
@@ -202,16 +202,16 @@ namespace Correction.UI {
 
             _transformMarker.SetActiveAxis(p_axis);
 
-            m_positionManage.infoText.text = _currentTRO.transform.GetValue(_choosedAxis, TransformField.positionLocal).ToString();
-            m_rotationManage.infoText.text = _currentTRO.transform.GetValue(_choosedAxis, TransformField.rotationLocal).ToString();
-            m_scaleManage.infoText.text = _currentTRO.transform.GetValue(_choosedAxis, TransformField.scaleLocal).ToString();
+            m_positionManage.SetText(_currentTRO.transform.GetValue(_choosedAxis, TransformField.positionLocal).ToString());
+            m_rotationManage.SetText(_currentTRO.transform.GetValue(_choosedAxis, TransformField.rotationLocal).ToString());
+            m_scaleManage.SetText(_currentTRO.transform.GetValue(_choosedAxis, TransformField.scaleLocal).ToString());
         }
 
         private void _changeTransform(TransformField field, Axis axis, bool positive) {
             string fieldInfo = "";
             float delta = 0;
 
-            TROStepper fieldInfoFld = null;
+            Stepper fieldInfoFld = null;
             switch (field) {
                 case TransformField.positionLocal:
                     fieldInfoFld = m_positionManage;
@@ -229,7 +229,7 @@ namespace Correction.UI {
             delta *= positive ? 1 : -1;
             fieldInfo = _currentTRO.changeTransform(field, axis, delta).ToString();
             if (fieldInfoFld != null)
-                fieldInfoFld.infoText.text = fieldInfo;
+                fieldInfoFld.SetText(fieldInfo);
         }
 
         private void _loadSerialized() {
