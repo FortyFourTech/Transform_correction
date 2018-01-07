@@ -4,25 +4,30 @@ using UnityEngine;
 
 namespace Correction {
     public class TROMarker : MonoBehaviour {
-        public Transform axisX;
-        public Transform axisY;
-        public Transform axisZ;
 
-        private GameObject m_xSelector;
-        private GameObject m_ySelector;
-        private GameObject m_zSelector;
+#region EDITOR_FIELDS
+        [SerializeField] private Transform _xAxisSelector, _yAxisSelector, _zAxisSelector;
+#endregion
 
-        // Use this for initialization
-        void Start() {
-            m_xSelector = axisX.Find("Sphere/Cube").gameObject;
-            m_ySelector = axisY.Find("Sphere/Cube").gameObject;
-            m_zSelector = axisZ.Find("Sphere/Cube").gameObject;
+#region PUBLIC_FUNCTIONS
+        public void SetActiveAxis(Axis axis) {
+            _xAxisSelector.gameObject.SetActive(axis != Axis.X);
+            _yAxisSelector.gameObject.SetActive(axis != Axis.Y);
+            _zAxisSelector.gameObject.SetActive(axis != Axis.Z);
         }
 
-        public void SetActiveAxis(Axis p_axis) {
-            m_xSelector.SetActive(p_axis != Axis.X);
-            m_ySelector.SetActive(p_axis != Axis.Y);
-            m_zSelector.SetActive(p_axis != Axis.Z);
+        public void SetParentObject(GameObject parentObject) {
+            var tr = transform;
+            if (parentObject == null) {
+                tr.SetParent(Camera.main.transform);
+                tr.localPosition = new Vector3(0.0f, 0.0f, -10.0f);
+            } else {
+                tr.SetParent(parentObject.transform);
+                tr.localPosition = Vector3.zero;
+            }
+            tr.localEulerAngles = Vector3.zero;
+            tr.localScale = Vector3.one;
         }
+#endregion
     }
 }
