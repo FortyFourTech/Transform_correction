@@ -29,7 +29,7 @@ namespace UnityEngine.UI {
         }
 
         public void AddMinusAction(Events.UnityAction action) {
-            _plusBtn.onClick.AddListener(action);
+            _minusBtn.onClick.AddListener(action);
         }
 
         public void RemovePlusAction(Events.UnityAction action) {
@@ -37,7 +37,7 @@ namespace UnityEngine.UI {
         }
 
         public void RemoveMinusAction(Events.UnityAction action) {
-            _plusBtn.onClick.RemoveListener(action);
+            _minusBtn.onClick.RemoveListener(action);
         }
 #endregion
     }
