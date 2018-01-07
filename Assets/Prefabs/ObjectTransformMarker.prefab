@@ -762,9 +762,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f307954362c3cb94bbad8b7c41b33869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axisX: {fileID: 4232459695269074}
-  axisY: {fileID: 4318107332301670}
-  axisZ: {fileID: 4870859632509252}
+  _xAxisSelector: {fileID: 4934391753713840}
+  _yAxisSelector: {fileID: 4902703129412602}
+  _zAxisSelector: {fileID: 4374217576377724}
 --- !u!135 &135593733169236894
 SphereCollider:
   m_ObjectHideFlags: 1
