@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,6 +48,7 @@ namespace Correction {
                     break;
                 case TransformField.scale:
                     if (transform.parent == null) transform.localScale = value; // partial solution
+                    else throw new Exception("You can not set scale for objects with parent");
                     //transform.lossyScale = value; // TODO: write the right implementation for this case
                     break;
                 case TransformField.positionLocal:
