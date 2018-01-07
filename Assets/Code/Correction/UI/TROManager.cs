@@ -19,9 +19,7 @@ namespace Correction.UI {
 
         // selection
         private Toggle Toggle_Select;
-        [SerializeField]
-        private Transform m_axisSelection;
-        private Button Button_X, Button_Y, Button_Z;
+        [SerializeField] private AxisSelector _axisSelector;
 
         // position correction
         [SerializeField]
@@ -137,7 +135,7 @@ namespace Correction.UI {
             //setObjectTransformMarkerObject (null);
             //GameObject.Find ("Canvas/SceneName").GetComponent<UnityEngine.UI.Text> ().text = ObjectTransformMarker.transform.localScale.x.ToString();
             //--------
-            m_axisSelection.gameObject.SetActive(selected);
+            _axisSelector.gameObject.SetActive(selected);
             //--------
             m_positionManage.gameObject.SetActive(selected);
             m_rotationManage.gameObject.SetActive(selected);
@@ -158,14 +156,11 @@ namespace Correction.UI {
             Toggle_Select.gameObject.SetActive(false);
             Toggle_Select.onValueChanged.AddListener(F_SelectChanged);
             //--------
-            Button_X = m_axisSelection.Find("ButtonX").GetComponent<Button>();
-            Button_X.onClick.AddListener(() => _chooseAxis(Axis.X));
-            Button_Y = m_axisSelection.Find("ButtonY").GetComponent<Button>();
-            Button_Y.onClick.AddListener(() => _chooseAxis(Axis.Y));
-            Button_Z = m_axisSelection.Find("ButtonZ").GetComponent<Button>();
-            Button_Z.onClick.AddListener(() => _chooseAxis(Axis.Z));
+            _axisSelector.AddAxisBtnAction(Axis.X, () => _chooseAxis(Axis.X));
+            _axisSelector.AddAxisBtnAction(Axis.Y, () => _chooseAxis(Axis.Y));
+            _axisSelector.AddAxisBtnAction(Axis.Z, () => _chooseAxis(Axis.Z));
 
-            m_axisSelection.gameObject.SetActive(false);
+            _axisSelector.gameObject.SetActive(false);
 
             // position
             m_positionManage.AddPlusAction(
@@ -196,9 +191,8 @@ namespace Correction.UI {
         private void _chooseAxis(Axis p_axis) {
             _choosedAxis = p_axis;
             //Transform trm = currentTRO.transform;
-            Button_X.interactable = (p_axis != Axis.X);
-            Button_Y.interactable = (p_axis != Axis.Y);
-            Button_Z.interactable = (p_axis != Axis.Z);
+
+            _axisSelector.SetActiveAxis(p_axis);
 
             _transformMarker.SetActiveAxis(p_axis);
 
