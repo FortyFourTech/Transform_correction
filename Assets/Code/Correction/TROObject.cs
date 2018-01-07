@@ -12,7 +12,7 @@ namespace Correction {
 
         public float changeTransform(TransformField field, Axis axis, float val) {
             return
-                gameObject.transform.AddValue(axis, field, val);
+                gameObject.transform.AddValue(field, axis, val);
         }
     }
 }

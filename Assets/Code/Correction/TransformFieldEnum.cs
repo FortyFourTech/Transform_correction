@@ -87,7 +87,7 @@ namespace Correction {
 
             return result;
         }
-        public static float AddValue(this Transform tr, Axis axis, TransformField field, float value) {
+        public static float AddValue(this Transform tr, TransformField field, Axis axis, float value) {
             var currentFieldVal = tr.GetField(field);
             Vector3 newFieldVal;
             if (field == TransformField.rotation || field == TransformField.rotationLocal) {

@@ -51,7 +51,7 @@ namespace Testing {
                 var originalField = tr.GetField(field);
 
                 var originalFieldValue = tr.GetValue(axis, field);
-                tr.AddValue(axis, field, addDelta);
+                tr.AddValue(field, axis, addDelta);
                 var newFieldValue = tr.GetValue(axis, field);
                 Assert.AreEqual(originalFieldValue + expectedDelta, newFieldValue, 0.001f, "field value is different after set for field " + field.ToString() + " and axis " + axis.ToString()); // wrong checking
 
