@@ -168,7 +168,6 @@ GameObject:
   - component: {fileID: 1891}
   - component: {fileID: 1253}
   - component: {fileID: 2787}
-  - component: {fileID: 2786}
   m_Layer: 0
   m_Name: Hololgraphic button
   m_TagString: Untagged
@@ -317,7 +316,6 @@ GameObject:
   - component: {fileID: 1990}
   - component: {fileID: 1257}
   - component: {fileID: 3018}
-  - component: {fileID: 3017}
   m_Layer: 0
   m_Name: Hololgraphic button
   m_TagString: Untagged
@@ -336,7 +334,6 @@ GameObject:
   - component: {fileID: 1991}
   - component: {fileID: 1258}
   - component: {fileID: 3020}
-  - component: {fileID: 3019}
   m_Layer: 0
   m_Name: Hololgraphic button
   m_TagString: Untagged
@@ -2352,18 +2349,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &2786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114436932117071206, guid: 0f953e39c026edf48ac4e587dd662b21,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a79f24b674c5e44f88801c8fe0868a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2534,18 +2519,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &3017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114436932117071206, guid: 0f953e39c026edf48ac4e587dd662b21,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a79f24b674c5e44f88801c8fe0868a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2610,18 +2583,6 @@ MonoBehaviour:
         m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &3019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114436932117071206, guid: 0f953e39c026edf48ac4e587dd662b21,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a79f24b674c5e44f88801c8fe0868a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3020
 MonoBehaviour:
   m_ObjectHideFlags: 0
