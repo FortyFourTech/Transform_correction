@@ -46,5 +46,13 @@ namespace Correction {
                 }
             }
         }
+
+#if UNITY_EDITOR
+        [UnityEditor.MenuItem("Assets/Import correction")]
+        public static void Import() {
+            var filePath = UnityEditor.EditorUtility.OpenFilePanel("choose mesh file", "", "");
+            CorrectionsSerialization.deserialize(filePath);
+        }
+#endif
     }
 }
