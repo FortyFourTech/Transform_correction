@@ -67,15 +67,23 @@ namespace Correction {
         public static float GetValue(this Transform tr, Axis axis, TransformField field) {
             var fieldVal = tr.GetField(field);
             float result = 0;
+            result = fieldVal.GetValue(axis);
+
+            return result;
+        }
+
+        public static float GetValue(this Vector3 vector, Axis axis) {
+            float result = 0;
+
             switch (axis) {
                 case Axis.X:
-                    result = fieldVal.x;
+                    result = vector.x;
                     break;
                 case Axis.Y:
-                    result = fieldVal.y;
+                    result = vector.y;
                     break;
                 case Axis.Z:
-                    result = fieldVal.z;
+                    result = vector.z;
                     break;
                 case Axis.none:
                     result = 0;
