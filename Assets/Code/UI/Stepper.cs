@@ -5,10 +5,21 @@ using UnityEngine.UI;
 
 namespace UnityEngine.UI {
     public class Stepper : MonoBehaviour {
+
+#region EDITOR_FIELDS
         [SerializeField] private Text _infoText;
         [SerializeField] private Button _plusBtn;
         [SerializeField] private Button _minusBtn;
+#endregion
 
+#region UNITY_FUNCTIONS
+        private void OnDestroy() {
+            _plusBtn.onClick.RemoveAllListeners();
+            _minusBtn.onClick.RemoveAllListeners();
+        }
+#endregion
+
+#region PUBLIC_FUNCTIONS
         public void SetText(string text) {
             _infoText.text = text;
         }
@@ -28,10 +39,6 @@ namespace UnityEngine.UI {
         public void RemoveMinusAction(Events.UnityAction action) {
             _plusBtn.onClick.RemoveListener(action);
         }
-
-        private void OnDestroy() {
-            _plusBtn.onClick.RemoveAllListeners();
-            _minusBtn.onClick.RemoveAllListeners();
-        }
+#endregion
     }
 }
