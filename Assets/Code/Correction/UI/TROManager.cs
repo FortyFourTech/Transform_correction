@@ -37,12 +37,10 @@ namespace Correction.UI {
             Cam = Camera.main;
             Ts = GameObject.FindObjectsOfType<TROObject>();
             
-            _transformMarker = (Instantiate(TransformMarkPrefab) as GameObject).GetComponent<TROMarker>();
-            _setObjectTransformMarkerObject(null);
+            _transformMarker = (Instantiate(_transformMarkPrefab) as GameObject).GetComponent<TROMarker>();
+            _transformMarker.SetParentObject(null);
 
             _initGui();
-            //--------
-            _setObjectTransformMarkerObject(null);
 
             _loadSerialized();
         }
@@ -73,22 +71,10 @@ namespace Correction.UI {
 
             if (_currentTRO != newPossibleTRO) {
                 _currentTRO = newPossibleTRO;
-                _setObjectTransformMarkerObject((_currentTRO == null) ? null : _currentTRO.gameObject);
+                _transformMarker.SetParentObject((_currentTRO == null) ? null : _currentTRO.gameObject);
             }
         }
 
-        private void _setObjectTransformMarkerObject(GameObject _go) {
-            Transform tr = _transformMarker.transform;
-            if (_go == null) {
-                tr.SetParent(Cam.transform);
-                tr.localPosition = new Vector3(0.0f, 0.0f, -10.0f);
-            } else {
-                tr.SetParent(_go.transform);
-                tr.localPosition = Vector3.zero;
-            }
-            tr.localEulerAngles = Vector3.zero;
-            tr.localScale = Vector3.one;
-        }
 
         public void F_StartChanged(bool val) {
             started = val;
@@ -97,7 +83,7 @@ namespace Correction.UI {
                 if (redactedObjects != null) {
                     CorrectionsSerialization.serialize(redactedObjects.ToArray());
                 }
-                _setObjectTransformMarkerObject(null);
+                _transformMarker.SetParentObject(null);
             }
             _transformMarker.SetActiveAxis(Axis.none);
             Toggle_Select.gameObject.SetActive(started);
