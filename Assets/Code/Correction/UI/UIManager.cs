@@ -46,7 +46,7 @@ namespace Correction.UI {
                 _ChangeState(State.off);
                 
                 if (_redactedObjects != null) {
-                    CorrectionsSerialization.serialize(_redactedObjects.ToArray());
+                    CorrectionsSerialization.Serialize(_redactedObjects.ToArray());
                 }
             } else {
                 _ChangeState(State.started);
@@ -199,7 +199,7 @@ namespace Correction.UI {
         }
 
         private void _LoadSerialized() {
-            CorrectionsSerialization.deserialize();
+            CorrectionsSerialization.Deserialize();
         }
 
         private IEnumerator _DoExportChanges () {

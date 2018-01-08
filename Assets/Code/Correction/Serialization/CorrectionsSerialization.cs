@@ -5,11 +5,11 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 namespace Correction {
-    public class CorrectionsSerialization {
+    public static class CorrectionsSerialization {
         public static string k_saveFileName = "ObjectsCorrection.xml";
         public static string k_serializePath = Path.Combine(Application.persistentDataPath, k_saveFileName);
 
-        public static void serialize(GameObject[] objects) {
+        public static void Serialize(GameObject[] objects) {
             //var objFullName = getFullName(obj);
             var changesList = new List<GameObjectCorrection>();
 
@@ -30,7 +30,7 @@ namespace Correction {
             fileStream.Close();
         }
 
-        public static void deserialize(string filePath = null) {
+        public static void Deserialize(string filePath = null) {
             if (filePath == null)
                 filePath = k_serializePath;
 
@@ -51,7 +51,7 @@ namespace Correction {
         [UnityEditor.MenuItem("Assets/Import correction")]
         public static void Import() {
             var filePath = UnityEditor.EditorUtility.OpenFilePanel("choose mesh file", "", "");
-            CorrectionsSerialization.deserialize(filePath);
+            CorrectionsSerialization.Deserialize(filePath);
         }
 #endif
     }
