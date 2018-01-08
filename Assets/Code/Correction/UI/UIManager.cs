@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Correction;
 
 namespace Correction.UI {
-    public class TROManager : MonoBehaviour {
+    public class UIManager : MonoBehaviour {
 
 #region EDITOR_FIELDS
         [SerializeField] private Toggle _startToggle, _selectToggle;
