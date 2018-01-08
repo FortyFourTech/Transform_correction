@@ -40,46 +40,7 @@ namespace Correction.UI {
         }
 #endregion
 
-#region PRIVATE_FUNCTIONS
-        private void _InitGui() {
-            _startToggle.isOn = _started;
-            _startToggle.onValueChanged.AddListener(_OnStartChanged);
-            _startToggle.gameObject.SetActive(true);
-
-            _selectToggle.isOn = _selected;
-            _selectToggle.onValueChanged.AddListener(_OnSelectChanged);
-            _selectToggle.gameObject.SetActive(false);
-
-            _axisSelector.AddAxisBtnAction(Axis.X, () => _ChooseAxis(Axis.X));
-            _axisSelector.AddAxisBtnAction(Axis.Y, () => _ChooseAxis(Axis.Y));
-            _axisSelector.AddAxisBtnAction(Axis.Z, () => _ChooseAxis(Axis.Z));
-            _axisSelector.gameObject.SetActive(false);
-
-            _positionStepper.AddPlusAction(
-                () => _ChangeTransform(TransformField.positionLocal, _choosedAxis, true)
-            );
-            _positionStepper.AddMinusAction(
-                () => _ChangeTransform(TransformField.positionLocal, _choosedAxis, false)
-            );
-            _positionStepper.gameObject.SetActive(false);
-
-            _rotationStepper.AddPlusAction(
-                () => _ChangeTransform(TransformField.rotationLocal, _choosedAxis, true)
-            );
-            _rotationStepper.AddMinusAction(
-                () => _ChangeTransform(TransformField.rotationLocal, _choosedAxis, false)
-            );
-            _rotationStepper.gameObject.SetActive(false);
-
-            _scaleStepper.AddPlusAction(
-                () => _ChangeTransform(TransformField.scaleLocal, _choosedAxis, true)
-            );
-            _scaleStepper.AddMinusAction(
-                () => _ChangeTransform(TransformField.scaleLocal, _choosedAxis, false)
-            );
-            _scaleStepper.gameObject.SetActive(false);
-        }
-
+#region BUTTON_FUNCTIONS
         private void _OnStartChanged(bool newValue) {
             if (!newValue) {
                 _ChangeState(State.off);
@@ -146,6 +107,47 @@ namespace Correction.UI {
             fieldInfo = _objectSelector.ChangeObjectTransform(field, axis, delta).ToString();
             if (fieldInfoFld != null)
                 fieldInfoFld.SetText(fieldInfo);
+        }
+#endregion
+
+#region PRIVATE_FUNCTIONS
+        private void _InitGui() {
+            _startToggle.isOn = false;
+            _startToggle.onValueChanged.AddListener(_OnStartChanged);
+            _startToggle.gameObject.SetActive(true);
+
+            _selectToggle.isOn = false;
+            _selectToggle.onValueChanged.AddListener(_OnSelectChanged);
+            _selectToggle.gameObject.SetActive(false);
+
+            _axisSelector.AddAxisBtnAction(Axis.X, () => _ChooseAxis(Axis.X));
+            _axisSelector.AddAxisBtnAction(Axis.Y, () => _ChooseAxis(Axis.Y));
+            _axisSelector.AddAxisBtnAction(Axis.Z, () => _ChooseAxis(Axis.Z));
+            _axisSelector.gameObject.SetActive(false);
+
+            _positionStepper.AddPlusAction(
+                () => _ChangeTransform(TransformField.positionLocal, _choosedAxis, true)
+            );
+            _positionStepper.AddMinusAction(
+                () => _ChangeTransform(TransformField.positionLocal, _choosedAxis, false)
+            );
+            _positionStepper.gameObject.SetActive(false);
+
+            _rotationStepper.AddPlusAction(
+                () => _ChangeTransform(TransformField.rotationLocal, _choosedAxis, true)
+            );
+            _rotationStepper.AddMinusAction(
+                () => _ChangeTransform(TransformField.rotationLocal, _choosedAxis, false)
+            );
+            _rotationStepper.gameObject.SetActive(false);
+
+            _scaleStepper.AddPlusAction(
+                () => _ChangeTransform(TransformField.scaleLocal, _choosedAxis, true)
+            );
+            _scaleStepper.AddMinusAction(
+                () => _ChangeTransform(TransformField.scaleLocal, _choosedAxis, false)
+            );
+            _scaleStepper.gameObject.SetActive(false);
         }
 
         private void _ChangeState(State newState) {
