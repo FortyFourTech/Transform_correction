@@ -24,7 +24,6 @@ namespace Correction.UI {
 
         private Axis _choosedAxis = Axis.none;
         private TROObject _currentTRO = null;
-        private bool _started = false, _selected = false;
 
         private List<GameObject> _redactedObjects = new List<GameObject>();
 #endregion
@@ -40,12 +39,8 @@ namespace Correction.UI {
         }
 
         private void Update() {
-            if (!_started)
-                return;
-            if (_selected)
-                return;
-
-            _CheckVisibleTRO();
+            if (_state == State.started)
+                _CheckVisibleTRO();
         }
 #endregion
 
@@ -162,13 +157,13 @@ namespace Correction.UI {
         }
 
         private void _ChangeState(State newState) {
-            if (_state == newState) return;
-
             _state = newState;
+
+            bool started, selected;
             switch (_state) {
                 case State.off:
-                    _started = false;
-                    _selected = false;
+                    started = false;
+                    selected = false;
 
                     _currentTRO = null;
                     _transformMarker.SetParentObject(null);
@@ -176,8 +171,8 @@ namespace Correction.UI {
                     
                     break;
                 case State.started:
-                    _started = true;
-                    _selected = false;
+                    started = true;
+                    selected = false;
 
                     _currentTRO = null;
                     _transformMarker.SetParentObject(null);
@@ -185,8 +180,8 @@ namespace Correction.UI {
                     
                     break;
                 case State.selected:
-                    _started = true;
-                    _selected = true;
+                    started = true;
+                    selected = true;
 
                     _ChooseAxis(Axis.X);
 
@@ -197,15 +192,15 @@ namespace Correction.UI {
 
             // _startToggle.isOn = _started;
             _selectToggle.onValueChanged.RemoveAllListeners(); // this is for callback not being called
-            _selectToggle.isOn = _selected;
+            _selectToggle.isOn = selected;
             _selectToggle.onValueChanged.AddListener(_OnSelectChanged);
-            _selectToggle.gameObject.SetActive(_started);
+            _selectToggle.gameObject.SetActive(started);
 
-            _axisSelector.gameObject.SetActive(_selected);
+            _axisSelector.gameObject.SetActive(selected);
 
-            _positionStepper.gameObject.SetActive(_selected);
-            _rotationStepper.gameObject.SetActive(_selected);
-            _scaleStepper.gameObject.SetActive(_selected);
+            _positionStepper.gameObject.SetActive(selected);
+            _rotationStepper.gameObject.SetActive(selected);
+            _scaleStepper.gameObject.SetActive(selected);
         }
 
         private void _CheckVisibleTRO() {
