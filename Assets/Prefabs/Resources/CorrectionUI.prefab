@@ -686,14 +686,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351c15ee4a45182449c87d218c5ed769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transformMarkPrefab: {fileID: 1904848071035552, guid: e4ee22fdd57a0bc4f9127622ac511af4,
-    type: 2}
   _startToggle: {fileID: 114385589771395116}
   _selectToggle: {fileID: 114642662451054352}
   _axisSelector: {fileID: 114494909697748186}
   _positionStepper: {fileID: 114086007839959550}
   _rotationStepper: {fileID: 114745486616607966}
   _scaleStepper: {fileID: 114116897811986296}
+  _objectSelector: {fileID: 0}
 --- !u!114 &114016473534363590
 MonoBehaviour:
   m_ObjectHideFlags: 1
