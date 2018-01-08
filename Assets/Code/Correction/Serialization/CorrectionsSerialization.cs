@@ -42,7 +42,7 @@ namespace Correction {
 
                 var changes = (CorrectionsList)serializer.Deserialize(fileStream);
                 foreach (var readedObj in changes.ChangedObjects) {
-                    readedObj.apply();
+                    readedObj.Apply();
                 }
             }
         }

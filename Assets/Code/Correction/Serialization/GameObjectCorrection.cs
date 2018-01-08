@@ -4,15 +4,15 @@ namespace Correction {
     public struct GameObjectCorrection {
 
         public string objectName;
-        public float posX;
-        public float posY;
-        public float posZ;
-        public float rotX;
-        public float rotY;
-        public float rotZ;
-        public float scalX;
-        public float scalY;
-        public float scalZ;
+
+        // position
+        public float posX, posY, posZ;
+
+        // rotation
+        public float rotX, rotY, rotZ;
+
+        // scale
+        public float scalX, scalY, scalZ;
 
         public GameObjectCorrection(GameObject go) {
             // name
@@ -34,7 +34,7 @@ namespace Correction {
             scalZ = go.transform.localScale.z;
         }
 
-        public void apply() {
+        public void Apply() {
             var go = GameObject.Find(objectName);
 
             if (go != null) {
