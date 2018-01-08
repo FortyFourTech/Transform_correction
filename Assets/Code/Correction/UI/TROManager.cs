@@ -15,32 +15,22 @@ namespace Correction.UI {
         [SerializeField] private Stepper _positionStepper, _rotationStepper, _scaleStepper;
 
         [Space]
-        [SerializeField] private GameObject _transformMarkPrefab;
+        [SerializeField] private ObjectSelector _objectSelector;
 #endregion
 
 #region PRIVATE_FIELDS
         private State _state = State.off;
-        private TROMarker _transformMarker;
 
         private Axis _choosedAxis = Axis.none;
-        private TROObject _currentTRO = null;
 
         private List<GameObject> _redactedObjects = new List<GameObject>();
 #endregion
 
 #region UNITY_FUNCTIONS
         private void Start() {
-            _transformMarker = (Instantiate(_transformMarkPrefab) as GameObject).GetComponent<TROMarker>();
-            _transformMarker.SetParentObject(null);
-
             _InitGui();
 
             _LoadSerialized();
-        }
-
-        private void Update() {
-            if (_state == State.started)
-                _CheckVisibleTRO();
         }
 #endregion
 
@@ -104,13 +94,14 @@ namespace Correction.UI {
 
         private void _OnSelectChanged(bool newValue) {
             if (newValue) {
-                if (_currentTRO == null) {
+                if (!_objectSelector.HasSelection) {
                     _ChangeState(State.started);
                 } else {
                     _ChangeState(State.selected);
 
-                    if (!_redactedObjects.Contains(_currentTRO.gameObject))
-                        _redactedObjects.Add(_currentTRO.gameObject);
+                    var selection = _objectSelector.Selection;
+                    if (!_redactedObjects.Contains(selection.gameObject))
+                        _redactedObjects.Add(selection.gameObject);
                 }
             } else {
                 _ChangeState(State.started);
@@ -122,12 +113,13 @@ namespace Correction.UI {
 
             _axisSelector.SetActiveAxis(axis);
 
-            _transformMarker.SetActiveAxis(axis);
+            _objectSelector.SetMarkerAxis(axis);
 
+            var currentSelection = _objectSelector.Selection;
             if (axis != Axis.none) {
-                _positionStepper.SetText(_currentTRO.transform.GetValue(_choosedAxis, TransformField.positionLocal).ToString());
-                _rotationStepper.SetText(_currentTRO.transform.GetValue(_choosedAxis, TransformField.rotationLocal).ToString());
-                _scaleStepper.SetText(_currentTRO.transform.GetValue(_choosedAxis, TransformField.scaleLocal).ToString());
+                _positionStepper.SetText(currentSelection.transform.GetValue(_choosedAxis, TransformField.positionLocal).ToString());
+                _rotationStepper.SetText(currentSelection.transform.GetValue(_choosedAxis, TransformField.rotationLocal).ToString());
+                _scaleStepper.SetText(currentSelection.transform.GetValue(_choosedAxis, TransformField.scaleLocal).ToString());
             }
         }
 
@@ -151,7 +143,7 @@ namespace Correction.UI {
                     break;
             }
             delta *= positive ? 1 : -1;
-            fieldInfo = _currentTRO.ChangeTransform(field, axis, delta).ToString();
+            fieldInfo = _objectSelector.ChangeObjectTransform(field, axis, delta).ToString();
             if (fieldInfoFld != null)
                 fieldInfoFld.SetText(fieldInfo);
         }
@@ -165,8 +157,8 @@ namespace Correction.UI {
                     started = false;
                     selected = false;
 
-                    _currentTRO = null;
-                    _transformMarker.SetParentObject(null);
+                    _objectSelector.LockMarker = true;
+                    _objectSelector.RemoveMarker();
                     _ChooseAxis(Axis.none);
                     
                     break;
@@ -174,8 +166,7 @@ namespace Correction.UI {
                     started = true;
                     selected = false;
 
-                    _currentTRO = null;
-                    _transformMarker.SetParentObject(null);
+                    _objectSelector.LockMarker = false;
                     _ChooseAxis(Axis.none);
                     
                     break;
@@ -183,6 +174,8 @@ namespace Correction.UI {
                     started = true;
                     selected = true;
 
+                    _objectSelector.LockMarker = true;
+                    _objectSelector.ShowMarker();
                     _ChooseAxis(Axis.X);
 
                     break;                    
@@ -201,33 +194,6 @@ namespace Correction.UI {
             _positionStepper.gameObject.SetActive(selected);
             _rotationStepper.gameObject.SetActive(selected);
             _scaleStepper.gameObject.SetActive(selected);
-        }
-
-        private void _CheckVisibleTRO() {
-            float closestDistance = float.MaxValue;
-            TROObject closestTRO = null;
-            var camera = Camera.main;
-
-            var hits = Physics.RaycastAll(new Ray(camera.transform.position, camera.transform.forward));
-            for (int i = 0; i < hits.Length; i++) {
-                var hit = hits[i];
-                var hitGO = hit.transform.gameObject;
-                var hitObject = hitGO.GetComponentInParent<TROObject>();
-                if (hitObject != null) {
-                    var dist = hit.distance;
-                    if ((closestTRO == null) || (dist < closestDistance)) {
-                        closestDistance = dist;
-                        closestTRO = hitObject;
-                    }
-                }
-            }
-
-            var newPossibleTRO = (closestTRO == null) ? null : closestTRO;
-
-            if (_currentTRO != newPossibleTRO) {
-                _currentTRO = newPossibleTRO;
-                _transformMarker.SetParentObject((_currentTRO == null) ? null : _currentTRO.gameObject);
-            }
         }
 
         private void _LoadSerialized() {
