@@ -4,31 +4,49 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Correction {
+    /// <summary>
+    /// Add this script to the scene, then
+    /// Add root objects to mCorrectableObjectsRoots.
+    /// After start all objects inside root objects will be correctable.
+    /// </summary>
     public class TROInit : MonoBehaviour {
-        // TODO: make this loaded once
-        public List<Transform> mCorrectableObjectsRoots;
+
+#region EDITOR_FIELDS
+        public List<Transform> CorrectableObjectsRoots;
+#endregion
+
+#region UNITY_FUNCTIONS
 
         void Start () {
-#if CORRECTION
-            //SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-            Debug.Log("TRO subscribed to scene loaded");
-            SceneManager_sceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-#endif
+            CheckUIOnScene();
+
+            Destroy(gameObject);
         }
+#endregion
 
-        private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1) {
-            Debug.Log("TRO got scene loaded");
-            // spawn correction UI
-            var prefab = Resources.Load("CorrectionUI");
-            var go = Instantiate(prefab) as GameObject;
-
+#region PRIVATE_FUNCTIONS
+        private void CheckUIOnScene() {
+            // Dont spawn UI, if its been placed to the scene manually.
+            if (!IsUIOnScene()) {
+                // spawn correction UI
+                var prefab = Resources.Load("CorrectionUI") as GameObject;
+                /*var go =*/ Instantiate(prefab) /*as GameObject*/;
+            }
+            
             // add TROObject to all objects that needed
-            foreach (var root in mCorrectableObjectsRoots) {
+            foreach (var root in CorrectableObjectsRoots) {
                 for (int childIdx = 0; childIdx < root.childCount; ++childIdx) {
                     var objTr = root.GetChild(childIdx);
-                    objTr.gameObject.AddComponent<TROObject>();
+                    var objCompo = objTr.GetComponent<TROObject>();
+                    if (objCompo == null)
+                        objTr.gameObject.AddComponent<TROObject>();
                 }
             }
         }
+
+        private bool IsUIOnScene() {
+            return Utility.CheckScriptOnScene(typeof(UI.UIManager));
+        }
+#endregion
     }
 }
